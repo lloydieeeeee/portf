@@ -5,9 +5,9 @@
 
 @section('content')
 
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 {{-- HERO SECTION --}}
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 
 <section id="home"
     class="relative overflow-hidden border-b border-line">
@@ -16,7 +16,7 @@
                 items-center gap-12 px-6 py-16
                 lg:grid-cols-2 lg:gap-16">
 
-        {{-- LEFT: INTRODUCTION --}}
+        {{-- LEFT SIDE: INTRODUCTION --}}
 
         <div class="relative z-10">
 
@@ -50,29 +50,26 @@
 
             <p class="reveal mt-7 max-w-xl text-lg
                       leading-relaxed text-muted">
-
                 {{ $profile['intro'] }}
-
             </p>
 
             <div class="reveal mt-9 flex flex-wrap
                         items-center gap-7">
 
                 <a href="#projects"
-                   class="border-b-2 border-accent
-                          pb-2 font-semibold transition
+                   class="border-b-2 border-accent pb-2
+                          font-semibold transition
                           hover:text-accent">
                     EXPLORE MY WORK ↗
                 </a>
 
                 <a href="#contact"
-                   class="border-b-2 border-ink
-                          pb-2 font-semibold transition
+                   class="border-b-2 border-ink pb-2
+                          font-semibold transition
                           hover:border-accent
                           hover:text-accent">
                     CONTACT ME ↗
                 </a>
-
             </div>
 
             <p class="reveal mt-16 font-mono text-xs
@@ -82,37 +79,55 @@
 
         </div>
 
-        {{-- RIGHT: INTERACTIVE ARTWORK --}}
+        {{-- ================================= --}}
+        {{-- INTERACTIVE ORBITAL ARTWORK --}}
+        {{-- ================================= --}}
 
         <div class="flex w-full min-w-0 flex-col
-                    items-center justify-center gap-3 py-4">
+                    items-center justify-center py-4">
 
             <div id="orbital-art"
                  class="orbital-art"
-                 data-theme="terracotta"
                  role="group"
-                 aria-label="Interactive liquid orbital sculpture">
+                 aria-label="Interactive orbital sculpture">
 
-                {{-- BACKGROUND ELEMENTS --}}
+                {{-- BACKGROUND GRID --}}
 
                 <div class="orbital-grid"
                      aria-hidden="true"></div>
 
+                {{-- AMBIENT GLOW --}}
+
                 <div class="orbital-aura"
                      aria-hidden="true"></div>
 
-                {{-- ROTATING ORBITS --}}
+                {{-- OUTER RING --}}
 
                 <div class="orbital-ring orbital-ring--outer"
                      aria-hidden="true"></div>
 
-                <div class="orbital-ring orbital-ring--middle"
-                     aria-hidden="true"></div>
+                {{-- INNER RING --}}
 
                 <div class="orbital-ring orbital-ring--inner"
                      aria-hidden="true"></div>
 
-                {{-- FLOATING DOTS --}}
+                {{-- DRAGGABLE MIDDLE ORBIT --}}
+
+                <div id="orbital-control-track"
+                     class="orbital-control-track">
+
+                    <button
+                        id="orbital-drag-handle"
+                        class="orbital-drag-handle"
+                        type="button"
+                        aria-label="Drag to change the portfolio accent color"
+                        aria-describedby="orbital-instructions"
+                        title="Drag to change color">
+                    </button>
+
+                </div>
+
+                {{-- DECORATIVE PARTICLES --}}
 
                 <span class="orbital-dot orbital-dot--one"
                       aria-hidden="true"></span>
@@ -120,7 +135,7 @@
                 <span class="orbital-dot orbital-dot--two"
                       aria-hidden="true"></span>
 
-                {{-- LIQUID SPHERE --}}
+                {{-- LIQUID CENTER --}}
 
                 <div class="orbital-core-wrap">
 
@@ -128,88 +143,32 @@
                         id="orbital-core"
                         type="button"
                         class="orbital-core"
-                        aria-label="Touch to create water ripples"
-                        title="Touch the sphere"
-                    >
+                        aria-label="Create a gentle water ripple"
+                        title="Touch the sphere">
+
                         <span class="orbital-sheen"
                               aria-hidden="true"></span>
 
                         <span id="orbital-ripple-layer"
                               class="orbital-ripple-layer"
                               aria-hidden="true"></span>
+
                     </button>
 
-                    {{-- OUTSIDE SPLASH WAVES --}}
-
-                    <span id="orbital-impact-layer"
-                          class="orbital-impact-layer"
-                          aria-hidden="true"></span>
-
                 </div>
 
             </div>
 
-            {{-- COLOR PALETTE --}}
+            {{-- SUBTLE INSTRUCTION BELOW ART --}}
 
-            <div class="orbital-controls">
+            <p id="orbital-instructions"
+               class="mt-2 text-center font-mono
+                      text-[10px] tracking-widest text-muted">
 
-                <p class="orbital-controls-title">
-                    CHOOSE YOUR COLOR
-                </p>
+                DRAG THE ORBITING DOT TO CHANGE COLORS
+                · TAP THE CENTER
 
-                <div class="orbital-palette"
-                     role="group"
-                     aria-label="Choose orbital artwork color">
-
-                    <button type="button"
-                            class="orbital-swatch"
-                            data-orbit-color="terracotta"
-                            aria-label="Terracotta"
-                            aria-pressed="true"
-                            title="Terracotta"></button>
-
-                    <button type="button"
-                            class="orbital-swatch"
-                            data-orbit-color="ocean"
-                            aria-label="Ocean blue"
-                            aria-pressed="false"
-                            title="Ocean blue"></button>
-
-                    <button type="button"
-                            class="orbital-swatch"
-                            data-orbit-color="violet"
-                            aria-label="Violet"
-                            aria-pressed="false"
-                            title="Violet"></button>
-
-                    <button type="button"
-                            class="orbital-swatch"
-                            data-orbit-color="emerald"
-                            aria-label="Emerald green"
-                            aria-pressed="false"
-                            title="Emerald green"></button>
-
-                    <button type="button"
-                            class="orbital-swatch"
-                            data-orbit-color="rose"
-                            aria-label="Rose pink"
-                            aria-pressed="false"
-                            title="Rose pink"></button>
-
-                    <button type="button"
-                            class="orbital-swatch"
-                            data-orbit-color="gold"
-                            aria-label="Golden yellow"
-                            aria-pressed="false"
-                            title="Golden yellow"></button>
-
-                </div>
-
-                <p class="orbital-controls-hint">
-                    TAP THE SPHERE TO MAKE WAVES
-                </p>
-
-            </div>
+            </p>
 
         </div>
 
@@ -218,9 +177,9 @@
 </section>
 
 
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 {{-- ABOUT SECTION --}}
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 
 <section id="about"
          class="border-t border-line px-6 py-24">
@@ -272,9 +231,9 @@
 </section>
 
 
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 {{-- PROJECTS SECTION --}}
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 
 <section id="projects"
          class="border-t border-line px-6 py-24">
@@ -327,8 +286,7 @@
                                 loading="lazy"
                                 class="h-full w-full object-cover
                                        transition-transform duration-500
-                                       group-hover:scale-105"
-                            >
+                                       group-hover:scale-105">
 
                         @else
 
@@ -409,9 +367,9 @@
 </section>
 
 
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 {{-- SKILLS SECTION --}}
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 
 <section id="skills"
          class="border-t border-line px-6 py-24">
@@ -473,9 +431,9 @@
 </section>
 
 
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 {{-- EXPERIENCE SECTION --}}
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 
 <section id="experience"
          class="border-t border-line px-6 py-24">
@@ -532,9 +490,9 @@
 </section>
 
 
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 {{-- CONTACT SECTION --}}
-{{-- ====================================== --}}
+{{-- ========================================= --}}
 
 <section id="contact"
          class="border-t border-line px-6 py-24">
