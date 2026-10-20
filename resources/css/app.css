@@ -15,6 +15,10 @@
     --font-body: "Inter", sans-serif;
 }
 
+/* ===================================== */
+/* GLOBAL STYLES */
+/* ===================================== */
+
 html {
     scroll-behavior: smooth;
 }
@@ -35,8 +39,490 @@ body {
     color: white;
 }
 
+/* ===================================== */
+/* INTERACTIVE ORBITAL ARTWORK */
+/* ===================================== */
+
+.orbital-art {
+    --orbit-hue: 0deg;
+
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 1;
+    margin-inline: auto;
+    isolation: isolate;
+    touch-action: pan-y;
+}
+
+/* ===================================== */
+/* BACKGROUND GRID */
+/* ===================================== */
+
+.orbital-grid {
+    position: absolute;
+    inset: 7%;
+    border-radius: 50%;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(184, 78, 43, .09) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(184, 78, 43, .09) 1px,
+            transparent 1px
+        );
+
+    background-size: 30px 30px;
+
+    -webkit-mask-image: radial-gradient(
+        circle,
+        black 15%,
+        transparent 75%
+    );
+
+    mask-image: radial-gradient(
+        circle,
+        black 15%,
+        transparent 75%
+    );
+}
+
+/* ===================================== */
+/* SOFT GLOW */
+/* ===================================== */
+
+.orbital-aura {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    pointer-events: none;
+
+    background: radial-gradient(
+        circle,
+        rgba(230, 150, 102, .45),
+        transparent 70%
+    );
+
+    filter:
+        blur(15px)
+        hue-rotate(var(--orbit-hue));
+
+    transition: filter .25s ease;
+
+    animation:
+        orbital-breathe 6s ease-in-out infinite alternate;
+}
+
+/* ===================================== */
+/* ROTATING ORBITAL RINGS */
+/* ===================================== */
+
+.orbital-ring {
+    position: absolute;
+    border: 1px solid rgba(184, 78, 43, .32);
+    border-radius: 50%;
+    pointer-events: none;
+
+    filter: hue-rotate(var(--orbit-hue));
+    transition: filter .25s ease;
+
+    animation: orbital-rotate 30s linear infinite;
+}
+
+/* The small dot attached to each ring */
+
+.orbital-ring::after {
+    content: "";
+    position: absolute;
+    top: 13%;
+    left: 13%;
+
+    width: 11px;
+    height: 11px;
+
+    border-radius: 50%;
+    border: 3px solid var(--color-paper);
+    background: #B84E2B;
+
+    box-shadow:
+        0 0 12px rgba(184, 78, 43, .35);
+}
+
+/* OUTER RING */
+
+.orbital-ring--outer {
+    inset: 5%;
+
+    border-style: dashed;
+    border-color: rgba(184, 78, 43, .25);
+
+    animation-duration: 45s;
+}
+
+/* MIDDLE RING */
+
+.orbital-ring--middle {
+    inset: 16%;
+
+    border-color: rgba(184, 78, 43, .4);
+
+    animation-duration: 27s;
+    animation-direction: reverse;
+}
+
+.orbital-ring--middle::after {
+    top: auto;
+    bottom: 10%;
+    left: 15%;
+}
+
+/* INNER RING */
+
+.orbital-ring--inner {
+    inset: 27%;
+
+    border-color: rgba(184, 78, 43, .22);
+    animation-duration: 20s;
+}
+
+.orbital-ring--inner::after {
+    width: 8px;
+    height: 8px;
+}
+
+/* Slightly faster when exploring the art */
+
+.orbital-art:hover .orbital-ring--outer {
+    animation-duration: 25s;
+}
+
+.orbital-art:hover .orbital-ring--middle {
+    animation-duration: 18s;
+}
+
+/* ===================================== */
+/* FLOATING PARTICLES */
+/* ===================================== */
+
+.orbital-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+    background: #B84E2B;
+
+    box-shadow:
+        0 0 0 7px rgba(184, 78, 43, .08);
+
+    pointer-events: none;
+
+    filter: hue-rotate(var(--orbit-hue));
+    transition: filter .25s ease;
+
+    animation:
+        orbital-breathe 4s ease-in-out infinite alternate;
+}
+
+.orbital-dot--one {
+    top: 16%;
+    right: 24%;
+}
+
+.orbital-dot--two {
+    bottom: 20%;
+    left: 14%;
+
+    width: 6px;
+    height: 6px;
+
+    animation-delay: -2s;
+}
+
+/* ===================================== */
+/* FLOATING CENTER */
+/* ===================================== */
+
+.orbital-core-wrap {
+    position: absolute;
+    inset: 31%;
+    z-index: 2;
+
+    animation:
+        orbital-float 6s ease-in-out infinite alternate;
+}
+
+/* Clickable liquid surface */
+
+.orbital-core {
+    position: relative;
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 44% 56% 53% 47% /
+                   48% 43% 57% 52%;
+
+    background:
+        radial-gradient(
+            circle at 30% 24%,
+            rgba(255, 225, 187, .65),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            #EBAA7D 0%,
+            #B84E2B 55%,
+            #853A30 100%
+        );
+
+    box-shadow:
+        inset 12px 12px 28px rgba(255,255,255,.2),
+        inset -14px -18px 30px rgba(60,20,15,.16),
+        0 25px 65px rgba(184,78,43,.22);
+
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    filter: hue-rotate(var(--orbit-hue));
+    transition:
+        filter .25s ease,
+        box-shadow .3s ease;
+
+    animation:
+        orbital-morph 9s ease-in-out infinite alternate;
+}
+
+/* Visual highlight */
+
+.orbital-core-light {
+    position: absolute;
+    inset: 0;
+
+    border-radius: inherit;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 35% 18%,
+            rgba(255,255,255,.3),
+            transparent 48%
+        );
+}
+
+/* Hover */
+
+.orbital-core:hover {
+    box-shadow:
+        inset 12px 12px 28px rgba(255,255,255,.25),
+        inset -14px -18px 30px rgba(60,20,15,.13),
+        0 30px 75px rgba(184,78,43,.32);
+}
+
+/* Keyboard accessibility */
+
+.orbital-core:focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 6px;
+}
+
+/* ===================================== */
+/* WATER RIPPLE LAYER */
+/* ===================================== */
+
+.orbital-ripple-layer {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+    border-radius: inherit;
+
+    pointer-events: none;
+}
+
+/* Generated by JavaScript when clicked */
+
+.orbital-ripple {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+
+    border: 2px solid rgba(255,255,255,.8);
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(255,255,255,.18),
+        transparent 75%
+    );
+
+    pointer-events: none;
+
+    animation:
+        water-ripple 1.05s ease-out both;
+}
+
+/* Liquid wobble on click */
+
+.orbital-core.is-splashing {
+    animation:
+        water-splash .65s ease-in-out both;
+}
+
+/* ===================================== */
+/* ANIMATIONS */
+/* ===================================== */
+
+@keyframes orbital-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbital-float {
+    from {
+        transform: translateY(-8px);
+    }
+
+    to {
+        transform: translateY(9px);
+    }
+}
+
+@keyframes orbital-breathe {
+    from {
+        opacity: .55;
+        transform: scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.06);
+    }
+}
+
+@keyframes orbital-morph {
+    from {
+        border-radius:
+            44% 56% 53% 47% /
+            48% 43% 57% 52%;
+    }
+
+    to {
+        border-radius:
+            58% 42% 41% 59% /
+            59% 57% 43% 41%;
+    }
+}
+
+/* Water waves expand outward */
+
+@keyframes water-ripple {
+    0% {
+        opacity: .95;
+        transform:
+            translate(-50%, -50%) scale(.1);
+    }
+
+    65% {
+        opacity: .55;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%) scale(6);
+    }
+}
+
+/* A brief elastic water wobble */
+
+@keyframes water-splash {
+    0% {
+        transform: scale(1);
+        border-radius: 50%;
+    }
+
+    25% {
+        transform: scale(.94, 1.07);
+        border-radius: 43% 57% 56% 44%;
+    }
+
+    55% {
+        transform: scale(1.06, .95);
+        border-radius: 59% 41% 45% 55%;
+    }
+
+    100% {
+        transform: scale(1);
+        border-radius: 50%;
+    }
+}
+
+/* ===================================== */
+/* RESPONSIVE DESIGN */
+/* ===================================== */
+
+@media (max-width: 1024px) {
+    .orbital-art {
+        max-width: 480px;
+    }
+}
+
+@media (max-width: 640px) {
+    .orbital-art {
+        max-width: 420px;
+    }
+
+    .orbital-ring::after {
+        width: 9px;
+        height: 9px;
+    }
+
+    .orbital-core-wrap {
+        inset: 30%;
+    }
+}
+
+@media (max-width: 380px) {
+    .orbital-art {
+        max-width: 330px;
+    }
+
+    .orbital-core-wrap {
+        inset: 29%;
+    }
+}
+
+/* ===================================== */
+/* ACCESSIBILITY */
+/* ===================================== */
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .orbital-ring,
+    .orbital-aura,
+    .orbital-dot,
+    .orbital-core,
+    .orbital-core-wrap,
+    .orbital-ripple {
+        animation: none !important;
     }
 }
