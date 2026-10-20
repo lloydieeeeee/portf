@@ -4,6 +4,10 @@
 @source "../views";
 @source "../js";
 
+/* ===================================== */
+/* THEME */
+/* ===================================== */
+
 @theme {
     --color-paper: #F7F5F0;
     --color-ink: #242321;
@@ -16,7 +20,7 @@
 }
 
 /* ===================================== */
-/* GLOBAL STYLES */
+/* GLOBAL */
 /* ===================================== */
 
 html {
@@ -40,23 +44,63 @@ body {
 }
 
 /* ===================================== */
-/* INTERACTIVE ORBITAL ARTWORK */
+/* ORBITAL COLOR THEMES */
 /* ===================================== */
 
 .orbital-art {
-    --orbit-hue: 0deg;
+    --orb-main: #B84E2B;
+    --orb-light: #F5C39D;
+    --orb-dark: #813829;
+    --orb-rgb: 184 78 43;
+
+    --light-x: 30%;
+    --light-y: 25%;
 
     position: relative;
     width: 100%;
-    max-width: 540px;
+    max-width: 520px;
     aspect-ratio: 1;
     margin-inline: auto;
     isolation: isolate;
-    touch-action: pan-y;
+}
+
+.orbital-art[data-theme="ocean"] {
+    --orb-main: #2476B9;
+    --orb-light: #A1E4FF;
+    --orb-dark: #164875;
+    --orb-rgb: 36 118 185;
+}
+
+.orbital-art[data-theme="violet"] {
+    --orb-main: #8155C7;
+    --orb-light: #D9C0FF;
+    --orb-dark: #4B3185;
+    --orb-rgb: 129 85 199;
+}
+
+.orbital-art[data-theme="emerald"] {
+    --orb-main: #238F78;
+    --orb-light: #A7EBD4;
+    --orb-dark: #125845;
+    --orb-rgb: 35 143 120;
+}
+
+.orbital-art[data-theme="rose"] {
+    --orb-main: #D35788;
+    --orb-light: #FFD0E1;
+    --orb-dark: #922F5A;
+    --orb-rgb: 211 87 136;
+}
+
+.orbital-art[data-theme="gold"] {
+    --orb-main: #D59635;
+    --orb-light: #FFE2A0;
+    --orb-dark: #946120;
+    --orb-rgb: 213 150 53;
 }
 
 /* ===================================== */
-/* BACKGROUND GRID */
+/* GRID BACKGROUND */
 /* ===================================== */
 
 .orbital-grid {
@@ -67,12 +111,12 @@ body {
 
     background-image:
         linear-gradient(
-            rgba(184, 78, 43, .09) 1px,
+            rgb(var(--orb-rgb) / .09) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(184, 78, 43, .09) 1px,
+            rgb(var(--orb-rgb) / .09) 1px,
             transparent 1px
         );
 
@@ -92,48 +136,40 @@ body {
 }
 
 /* ===================================== */
-/* SOFT GLOW */
+/* BACKGROUND GLOW */
 /* ===================================== */
 
 .orbital-aura {
     position: absolute;
-    inset: 20%;
+    inset: 16%;
     border-radius: 50%;
     pointer-events: none;
 
     background: radial-gradient(
         circle,
-        rgba(230, 150, 102, .45),
+        rgb(var(--orb-rgb) / .3),
         transparent 70%
     );
 
-    filter:
-        blur(15px)
-        hue-rotate(var(--orbit-hue));
-
-    transition: filter .25s ease;
+    filter: blur(20px);
 
     animation:
-        orbital-breathe 6s ease-in-out infinite alternate;
+        aura-pulse 6s ease-in-out infinite alternate;
 }
 
 /* ===================================== */
-/* ROTATING ORBITAL RINGS */
+/* ROTATING ORBITS */
 /* ===================================== */
 
 .orbital-ring {
     position: absolute;
-    border: 1px solid rgba(184, 78, 43, .32);
+    border: 1px solid rgb(var(--orb-rgb) / .3);
     border-radius: 50%;
     pointer-events: none;
 
-    filter: hue-rotate(var(--orbit-hue));
-    transition: filter .25s ease;
-
-    animation: orbital-rotate 30s linear infinite;
+    animation:
+        orbit-spin 32s linear infinite;
 }
-
-/* The small dot attached to each ring */
 
 .orbital-ring::after {
     content: "";
@@ -144,32 +180,22 @@ body {
     width: 11px;
     height: 11px;
 
-    border-radius: 50%;
     border: 3px solid var(--color-paper);
-    background: #B84E2B;
+    border-radius: 50%;
+    background: var(--orb-main);
 
     box-shadow:
-        0 0 12px rgba(184, 78, 43, .35);
+        0 0 12px rgb(var(--orb-rgb) / .4);
 }
-
-/* OUTER RING */
 
 .orbital-ring--outer {
     inset: 5%;
-
     border-style: dashed;
-    border-color: rgba(184, 78, 43, .25);
-
     animation-duration: 45s;
 }
 
-/* MIDDLE RING */
-
 .orbital-ring--middle {
     inset: 16%;
-
-    border-color: rgba(184, 78, 43, .4);
-
     animation-duration: 27s;
     animation-direction: reverse;
 }
@@ -180,12 +206,8 @@ body {
     left: 15%;
 }
 
-/* INNER RING */
-
 .orbital-ring--inner {
     inset: 27%;
-
-    border-color: rgba(184, 78, 43, .22);
     animation-duration: 20s;
 }
 
@@ -194,38 +216,26 @@ body {
     height: 8px;
 }
 
-/* Slightly faster when exploring the art */
-
-.orbital-art:hover .orbital-ring--outer {
-    animation-duration: 25s;
-}
-
-.orbital-art:hover .orbital-ring--middle {
-    animation-duration: 18s;
-}
-
 /* ===================================== */
 /* FLOATING PARTICLES */
 /* ===================================== */
 
 .orbital-dot {
     position: absolute;
+
     width: 8px;
     height: 8px;
 
     border-radius: 50%;
-    background: #B84E2B;
+    background: var(--orb-main);
 
     box-shadow:
-        0 0 0 7px rgba(184, 78, 43, .08);
+        0 0 0 8px rgb(var(--orb-rgb) / .09);
 
     pointer-events: none;
 
-    filter: hue-rotate(var(--orbit-hue));
-    transition: filter .25s ease;
-
     animation:
-        orbital-breathe 4s ease-in-out infinite alternate;
+        aura-pulse 4s ease-in-out infinite alternate;
 }
 
 .orbital-dot--one {
@@ -244,19 +254,17 @@ body {
 }
 
 /* ===================================== */
-/* FLOATING CENTER */
+/* FLOATING LIQUID SPHERE */
 /* ===================================== */
 
 .orbital-core-wrap {
     position: absolute;
-    inset: 31%;
+    inset: 30%;
     z-index: 2;
 
     animation:
-        orbital-float 6s ease-in-out infinite alternate;
+        core-float 6s ease-in-out infinite alternate;
 }
-
-/* Clickable liquid surface */
 
 .orbital-core {
     position: relative;
@@ -265,83 +273,82 @@ body {
     width: 100%;
     height: 100%;
 
+    margin: 0;
     padding: 0;
-    overflow: hidden;
 
-    border: 1px solid rgba(255, 255, 255, .35);
-    border-radius: 44% 56% 53% 47% /
-                   48% 43% 57% 52%;
+    border: 1px solid rgb(255 255 255 / .35);
+
+    border-radius:
+        44% 56% 53% 47% /
+        48% 43% 57% 52%;
+
+    overflow: hidden;
 
     background:
         radial-gradient(
-            circle at 30% 24%,
-            rgba(255, 225, 187, .65),
-            transparent 42%
+            circle at var(--light-x) var(--light-y),
+            rgb(255 255 255 / .35),
+            transparent 52%
         ),
         linear-gradient(
             145deg,
-            #EBAA7D 0%,
-            #B84E2B 55%,
-            #853A30 100%
+            var(--orb-light),
+            var(--orb-main) 58%,
+            var(--orb-dark)
         );
 
     box-shadow:
-        inset 12px 12px 28px rgba(255,255,255,.2),
-        inset -14px -18px 30px rgba(60,20,15,.16),
-        0 25px 65px rgba(184,78,43,.22);
+        inset 12px 12px 28px rgb(255 255 255 / .2),
+        inset -15px -18px 30px rgb(30 20 15 / .12),
+        0 25px 65px rgb(var(--orb-rgb) / .24);
 
     cursor: pointer;
+    touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
 
-    filter: hue-rotate(var(--orbit-hue));
-    transition:
-        filter .25s ease,
-        box-shadow .3s ease;
-
     animation:
-        orbital-morph 9s ease-in-out infinite alternate;
+        liquid-morph 9s ease-in-out infinite alternate;
 }
 
-/* Visual highlight */
+.orbital-core:hover {
+    box-shadow:
+        inset 12px 12px 28px rgb(255 255 255 / .25),
+        inset -15px -18px 30px rgb(30 20 15 / .14),
+        0 30px 70px rgb(var(--orb-rgb) / .38);
+}
 
-.orbital-core-light {
+.orbital-core:focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 5px;
+}
+
+/* ===================================== */
+/* LIQUID HIGHLIGHT */
+/* ===================================== */
+
+.orbital-sheen {
     position: absolute;
     inset: 0;
+    z-index: 1;
 
     border-radius: inherit;
     pointer-events: none;
 
-    background:
-        radial-gradient(
-            ellipse at 35% 18%,
-            rgba(255,255,255,.3),
-            transparent 48%
-        );
-}
-
-/* Hover */
-
-.orbital-core:hover {
-    box-shadow:
-        inset 12px 12px 28px rgba(255,255,255,.25),
-        inset -14px -18px 30px rgba(60,20,15,.13),
-        0 30px 75px rgba(184,78,43,.32);
-}
-
-/* Keyboard accessibility */
-
-.orbital-core:focus-visible {
-    outline: 3px solid var(--color-ink);
-    outline-offset: 6px;
+    background: radial-gradient(
+        ellipse at 30% 20%,
+        rgb(255 255 255 / .28),
+        transparent 55%
+    );
 }
 
 /* ===================================== */
-/* WATER RIPPLE LAYER */
+/* INNER WATER RIPPLE */
 /* ===================================== */
 
 .orbital-ripple-layer {
     position: absolute;
     inset: 0;
+    z-index: 3;
 
     overflow: hidden;
     border-radius: inherit;
@@ -349,41 +356,187 @@ body {
     pointer-events: none;
 }
 
-/* Generated by JavaScript when clicked */
-
 .orbital-ripple {
     position: absolute;
 
-    width: 48px;
-    height: 48px;
+    width: 54px;
+    height: 54px;
 
-    border: 2px solid rgba(255,255,255,.8);
+    border: 3px solid rgb(255 255 255 / .9);
     border-radius: 50%;
 
     background: radial-gradient(
         circle,
-        rgba(255,255,255,.18),
-        transparent 75%
+        rgb(255 255 255 / .25),
+        transparent 70%
     );
+
+    box-shadow:
+        0 0 12px rgb(255 255 255 / .3);
 
     pointer-events: none;
 
     animation:
-        water-ripple 1.05s ease-out both;
+        liquid-ripple 1s ease-out both;
 }
 
-/* Liquid wobble on click */
+/* ===================================== */
+/* OUTER SPLASH WAVES */
+/* ===================================== */
+
+.orbital-impact-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+
+    overflow: visible;
+    pointer-events: none;
+}
+
+.orbital-impact {
+    position: absolute;
+
+    width: 56px;
+    height: 56px;
+
+    border: 2px solid rgb(var(--orb-rgb) / .65);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 18px rgb(var(--orb-rgb) / .2);
+
+    pointer-events: none;
+
+    animation:
+        outer-ripple 1.1s ease-out both;
+}
+
+/* ===================================== */
+/* LIQUID CLICK REACTION */
+/* ===================================== */
 
 .orbital-core.is-splashing {
     animation:
-        water-splash .65s ease-in-out both;
+        liquid-hit .7s ease-in-out both;
 }
 
 /* ===================================== */
-/* ANIMATIONS */
+/* COLOR PALETTE */
 /* ===================================== */
 
-@keyframes orbital-rotate {
+.orbital-controls {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    margin-top: 4px;
+    text-align: center;
+}
+
+.orbital-controls-title {
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    color: var(--color-muted);
+}
+
+.orbital-palette {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+}
+
+/* Clickable color buttons */
+
+.orbital-swatch {
+    display: grid;
+    place-items: center;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 50%;
+
+    background: transparent;
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease;
+}
+
+.orbital-swatch::before {
+    content: "";
+
+    display: block;
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+    background: var(--swatch);
+
+    box-shadow:
+        0 2px 7px rgb(0 0 0 / .12);
+}
+
+.orbital-swatch:hover {
+    transform: translateY(-3px);
+}
+
+.orbital-swatch[aria-pressed="true"] {
+    border-color: var(--swatch);
+}
+
+.orbital-swatch:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+}
+
+/* Palette colors */
+
+.orbital-swatch[data-orbit-color="terracotta"] {
+    --swatch: #B84E2B;
+}
+
+.orbital-swatch[data-orbit-color="ocean"] {
+    --swatch: #2476B9;
+}
+
+.orbital-swatch[data-orbit-color="violet"] {
+    --swatch: #8155C7;
+}
+
+.orbital-swatch[data-orbit-color="emerald"] {
+    --swatch: #238F78;
+}
+
+.orbital-swatch[data-orbit-color="rose"] {
+    --swatch: #D35788;
+}
+
+.orbital-swatch[data-orbit-color="gold"] {
+    --swatch: #D59635;
+}
+
+.orbital-controls-hint {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+    color: var(--color-muted);
+}
+
+/* ===================================== */
+/* KEYFRAME ANIMATIONS */
+/* ===================================== */
+
+@keyframes orbit-spin {
     from {
         transform: rotate(0deg);
     }
@@ -393,17 +546,17 @@ body {
     }
 }
 
-@keyframes orbital-float {
+@keyframes core-float {
     from {
-        transform: translateY(-8px);
+        transform: translateY(-7px);
     }
 
     to {
-        transform: translateY(9px);
+        transform: translateY(8px);
     }
 }
 
-@keyframes orbital-breathe {
+@keyframes aura-pulse {
     from {
         opacity: .55;
         transform: scale(.94);
@@ -411,11 +564,11 @@ body {
 
     to {
         opacity: 1;
-        transform: scale(1.06);
+        transform: scale(1.07);
     }
 }
 
-@keyframes orbital-morph {
+@keyframes liquid-morph {
     from {
         border-radius:
             44% 56% 53% 47% /
@@ -429,17 +582,33 @@ body {
     }
 }
 
-/* Water waves expand outward */
+/* Bright concentric waves inside */
 
-@keyframes water-ripple {
+@keyframes liquid-ripple {
     0% {
-        opacity: .95;
+        opacity: 1;
         transform:
             translate(-50%, -50%) scale(.1);
     }
 
-    65% {
-        opacity: .55;
+    40% {
+        opacity: .85;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%) scale(5.5);
+    }
+}
+
+/* Waves extend outside the sphere */
+
+@keyframes outer-ripple {
+    0% {
+        opacity: .85;
+        transform:
+            translate(-50%, -50%) scale(.4);
     }
 
     100% {
@@ -449,22 +618,26 @@ body {
     }
 }
 
-/* A brief elastic water wobble */
+/* Brief water-like wobble */
 
-@keyframes water-splash {
+@keyframes liquid-hit {
     0% {
         transform: scale(1);
         border-radius: 50%;
     }
 
     25% {
-        transform: scale(.94, 1.07);
-        border-radius: 43% 57% 56% 44%;
+        transform: scale(.92, 1.08);
+        border-radius: 43% 57% 55% 45%;
     }
 
     55% {
-        transform: scale(1.06, .95);
-        border-radius: 59% 41% 45% 55%;
+        transform: scale(1.06, .94);
+        border-radius: 59% 41% 44% 56%;
+    }
+
+    80% {
+        transform: scale(.98, 1.02);
     }
 
     100% {
@@ -474,12 +647,12 @@ body {
 }
 
 /* ===================================== */
-/* RESPONSIVE DESIGN */
+/* RESPONSIVE */
 /* ===================================== */
 
 @media (max-width: 1024px) {
     .orbital-art {
-        max-width: 480px;
+        max-width: 470px;
     }
 }
 
@@ -488,13 +661,13 @@ body {
         max-width: 420px;
     }
 
+    .orbital-core-wrap {
+        inset: 29%;
+    }
+
     .orbital-ring::after {
         width: 9px;
         height: 9px;
-    }
-
-    .orbital-core-wrap {
-        inset: 30%;
     }
 }
 
@@ -503,13 +676,14 @@ body {
         max-width: 330px;
     }
 
-    .orbital-core-wrap {
-        inset: 29%;
+    .orbital-swatch {
+        width: 40px;
+        height: 40px;
     }
 }
 
 /* ===================================== */
-/* ACCESSIBILITY */
+/* REDUCED MOTION */
 /* ===================================== */
 
 @media (prefers-reduced-motion: reduce) {
@@ -522,7 +696,12 @@ body {
     .orbital-dot,
     .orbital-core,
     .orbital-core-wrap,
-    .orbital-ripple {
+    .orbital-ripple,
+    .orbital-impact {
         animation: none !important;
+    }
+
+    .orbital-swatch {
+        transition: none;
     }
 }

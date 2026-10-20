@@ -5,16 +5,16 @@
 
 @section('content')
 
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 {{-- HERO SECTION --}}
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 
 <section id="home"
     class="relative overflow-hidden border-b border-line">
 
     <div class="mx-auto grid min-h-[85vh] max-w-7xl
                 items-center gap-12 px-6 py-16
-                lg:grid-cols-2 lg:gap-20">
+                lg:grid-cols-2 lg:gap-16">
 
         {{-- LEFT: INTRODUCTION --}}
 
@@ -62,7 +62,6 @@
                    class="border-b-2 border-accent
                           pb-2 font-semibold transition
                           hover:text-accent">
-
                     EXPLORE MY WORK ↗
                 </a>
 
@@ -71,7 +70,6 @@
                           pb-2 font-semibold transition
                           hover:border-accent
                           hover:text-accent">
-
                     CONTACT ME ↗
                 </a>
 
@@ -79,36 +77,31 @@
 
             <p class="reveal mt-16 font-mono text-xs
                       tracking-widest text-muted">
-
                 SCROLL TO EXPLORE ↓
             </p>
 
         </div>
 
+        {{-- RIGHT: INTERACTIVE ARTWORK --}}
 
-        {{-- ================================= --}}
-        {{-- INTERACTIVE ORBITAL ARTWORK --}}
-        {{-- ================================= --}}
+        <div class="flex w-full min-w-0 flex-col
+                    items-center justify-center gap-3 py-4">
 
-        <div class="flex w-full min-w-0 items-center
-                    justify-center py-4">
+            <div id="orbital-art"
+                 class="orbital-art"
+                 data-theme="terracotta"
+                 role="group"
+                 aria-label="Interactive liquid orbital sculpture">
 
-            <div
-                id="orbital-art"
-                class="orbital-art"
-                role="group"
-                aria-label="Interactive orbital artwork"
-            >
+                {{-- BACKGROUND ELEMENTS --}}
 
-                {{-- BACKGROUND GRID --}}
                 <div class="orbital-grid"
                      aria-hidden="true"></div>
 
-                {{-- SOFT LIGHT --}}
                 <div class="orbital-aura"
                      aria-hidden="true"></div>
 
-                {{-- THREE ROTATING ORBITS --}}
+                {{-- ROTATING ORBITS --}}
 
                 <div class="orbital-ring orbital-ring--outer"
                      aria-hidden="true"></div>
@@ -119,7 +112,7 @@
                 <div class="orbital-ring orbital-ring--inner"
                      aria-hidden="true"></div>
 
-                {{-- SMALL FLOATING PARTICLES --}}
+                {{-- FLOATING DOTS --}}
 
                 <span class="orbital-dot orbital-dot--one"
                       aria-hidden="true"></span>
@@ -127,7 +120,7 @@
                 <span class="orbital-dot orbital-dot--two"
                       aria-hidden="true"></span>
 
-                {{-- CLICKABLE LIQUID CENTER --}}
+                {{-- LIQUID SPHERE --}}
 
                 <div class="orbital-core-wrap">
 
@@ -135,20 +128,86 @@
                         id="orbital-core"
                         type="button"
                         class="orbital-core"
-                        aria-label="Create a water ripple"
-                        title="Click to create a ripple"
+                        aria-label="Touch to create water ripples"
+                        title="Touch the sphere"
                     >
-
-                        <span class="orbital-core-light"
+                        <span class="orbital-sheen"
                               aria-hidden="true"></span>
 
                         <span id="orbital-ripple-layer"
                               class="orbital-ripple-layer"
                               aria-hidden="true"></span>
-
                     </button>
 
+                    {{-- OUTSIDE SPLASH WAVES --}}
+
+                    <span id="orbital-impact-layer"
+                          class="orbital-impact-layer"
+                          aria-hidden="true"></span>
+
                 </div>
+
+            </div>
+
+            {{-- COLOR PALETTE --}}
+
+            <div class="orbital-controls">
+
+                <p class="orbital-controls-title">
+                    CHOOSE YOUR COLOR
+                </p>
+
+                <div class="orbital-palette"
+                     role="group"
+                     aria-label="Choose orbital artwork color">
+
+                    <button type="button"
+                            class="orbital-swatch"
+                            data-orbit-color="terracotta"
+                            aria-label="Terracotta"
+                            aria-pressed="true"
+                            title="Terracotta"></button>
+
+                    <button type="button"
+                            class="orbital-swatch"
+                            data-orbit-color="ocean"
+                            aria-label="Ocean blue"
+                            aria-pressed="false"
+                            title="Ocean blue"></button>
+
+                    <button type="button"
+                            class="orbital-swatch"
+                            data-orbit-color="violet"
+                            aria-label="Violet"
+                            aria-pressed="false"
+                            title="Violet"></button>
+
+                    <button type="button"
+                            class="orbital-swatch"
+                            data-orbit-color="emerald"
+                            aria-label="Emerald green"
+                            aria-pressed="false"
+                            title="Emerald green"></button>
+
+                    <button type="button"
+                            class="orbital-swatch"
+                            data-orbit-color="rose"
+                            aria-label="Rose pink"
+                            aria-pressed="false"
+                            title="Rose pink"></button>
+
+                    <button type="button"
+                            class="orbital-swatch"
+                            data-orbit-color="gold"
+                            aria-label="Golden yellow"
+                            aria-pressed="false"
+                            title="Golden yellow"></button>
+
+                </div>
+
+                <p class="orbital-controls-hint">
+                    TAP THE SPHERE TO MAKE WAVES
+                </p>
 
             </div>
 
@@ -159,9 +218,9 @@
 </section>
 
 
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 {{-- ABOUT SECTION --}}
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 
 <section id="about"
          class="border-t border-line px-6 py-24">
@@ -177,9 +236,7 @@
 
             <h2 class="font-display text-4xl
                        font-bold md:text-5xl">
-
                 Code, design, and curiosity.
-
             </h2>
 
             <p class="mt-7 text-lg leading-relaxed text-muted">
@@ -215,9 +272,9 @@
 </section>
 
 
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 {{-- PROJECTS SECTION --}}
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 
 <section id="projects"
          class="border-t border-line px-6 py-24">
@@ -232,16 +289,12 @@
 
             <h2 class="mt-3 font-display
                        text-4xl font-bold md:text-5xl">
-
                 Things I've built.
-
             </h2>
 
             <p class="mt-5 max-w-xl leading-relaxed text-muted">
-
                 A collection of development,
                 design, and technology projects.
-
             </p>
 
         </div>
@@ -260,7 +313,7 @@
                 <a href="{{ route('projects.show', $project['slug']) }}"
                    class="project-card group block">
 
-                    {{-- PROJECT PREVIEW --}}
+                    {{-- PROJECT IMAGE --}}
 
                     <div class="flex aspect-[4/3]
                                 items-center justify-center
@@ -282,20 +335,14 @@
                             <div class="flex flex-col
                                         items-center justify-center">
 
-                                <span class="font-display
-                                             text-7xl font-bold
-                                             text-muted/30">
-
+                                <span class="font-display text-7xl
+                                             font-bold text-muted/30">
                                     {{ sprintf('%02d', $index + 1) }}
-
                                 </span>
 
-                                <span class="mt-4 font-mono
-                                             text-xs tracking-widest
-                                             text-muted">
-
+                                <span class="mt-4 font-mono text-xs
+                                             tracking-widest text-muted">
                                     PROJECT PREVIEW
-
                                 </span>
 
                             </div>
@@ -304,7 +351,7 @@
 
                     </div>
 
-                    {{-- PROJECT DETAILS --}}
+                    {{-- PROJECT INFORMATION --}}
 
                     <div class="mt-5 flex justify-between gap-4">
 
@@ -313,24 +360,18 @@
                             <p class="text-xs font-semibold
                                       uppercase tracking-widest
                                       text-accent">
-
                                 {{ $project['category'] }}
-
                             </p>
 
                             <h3 class="mt-2 font-display
                                        text-2xl font-bold
                                        transition-colors
                                        group-hover:text-accent">
-
                                 {{ $project['title'] }}
-
                             </h3>
 
                             <p class="mt-3 leading-relaxed text-muted">
-
                                 {{ $project['description'] }}
-
                             </p>
 
                             <div class="mt-5 flex flex-wrap gap-2">
@@ -340,9 +381,7 @@
                                     <span class="border border-line
                                                  px-3 py-1 text-xs
                                                  text-muted">
-
                                         {{ $technology }}
-
                                     </span>
 
                                 @endforeach
@@ -370,9 +409,9 @@
 </section>
 
 
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 {{-- SKILLS SECTION --}}
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 
 <section id="skills"
          class="border-t border-line px-6 py-24">
@@ -385,16 +424,12 @@
 
         <h2 class="reveal mt-3 font-display
                    text-4xl font-bold md:text-5xl">
-
             Languages, tools & technologies.
-
         </h2>
 
         <p class="reveal mt-5 max-w-2xl text-muted">
-
             Technologies and tools I use to
             turn ideas into functional digital solutions.
-
         </p>
 
         <div class="mt-12 grid gap-10 md:grid-cols-3">
@@ -418,9 +453,7 @@
                                              transition-colors
                                              hover:border-accent
                                              hover:text-accent">
-
                                     {{ $skill }}
-
                                 </span>
 
                             @endforeach
@@ -440,9 +473,9 @@
 </section>
 
 
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 {{-- EXPERIENCE SECTION --}}
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 
 <section id="experience"
          class="border-t border-line px-6 py-24">
@@ -456,11 +489,9 @@
 
         <div class="reveal md:col-span-2">
 
-            <h2 class="font-display
-                       text-4xl font-bold md:text-5xl">
-
+            <h2 class="font-display text-4xl
+                       font-bold md:text-5xl">
                 Background & experience.
-
             </h2>
 
             {{-- INTERNSHIP --}}
@@ -468,17 +499,13 @@
             <div class="mt-10 border-t border-line py-6">
 
                 <h3 class="font-display text-2xl font-bold">
-
                     IT Administrative Intern
-
                 </h3>
 
                 <p class="mt-3 leading-relaxed text-muted">
-
                     Worked on administrative workflows,
                     information systems, documentation,
                     and technical troubleshooting.
-
                 </p>
 
             </div>
@@ -488,17 +515,12 @@
             <div class="border-t border-line py-6">
 
                 <h3 class="font-display text-2xl font-bold">
-
                     {{ $profile['education']['degree'] }}
-
                 </h3>
 
                 <p class="mt-3 text-muted">
-
                     {{ $profile['education']['school'] }}
-                    ·
-                    {{ $profile['education']['years'] }}
-
+                    · {{ $profile['education']['years'] }}
                 </p>
 
             </div>
@@ -510,9 +532,9 @@
 </section>
 
 
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 {{-- CONTACT SECTION --}}
-{{-- ========================================= --}}
+{{-- ====================================== --}}
 
 <section id="contact"
          class="border-t border-line px-6 py-24">
@@ -523,29 +545,23 @@
             05 / CONTACT
         </p>
 
-        <h2 class="mt-5 font-display
-                   text-5xl font-bold md:text-7xl">
-
+        <h2 class="mt-5 font-display text-5xl
+                   font-bold md:text-7xl">
             Let's build something.
-
         </h2>
 
-        <p class="mt-6 max-w-xl
-                  text-lg leading-relaxed text-muted">
-
+        <p class="mt-6 max-w-xl text-lg
+                  leading-relaxed text-muted">
             Interested in collaborating,
             working together, or discussing
             an opportunity?
-
         </p>
 
         <a href="mailto:{{ $profile['email'] }}"
            class="mt-9 inline-block border-b-2
                   border-accent pb-2 font-semibold
                   transition hover:text-accent">
-
             GET IN TOUCH ↗
-
         </a>
 
     </div>
