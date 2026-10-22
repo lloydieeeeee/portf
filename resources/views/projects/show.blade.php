@@ -6,7 +6,6 @@
 @section('content')
 
 @php
-
     /*
     |--------------------------------------------------------------------------
     | PROJECT GALLERY SETUP
@@ -15,46 +14,42 @@
 
     $gallery = $project['gallery'] ?? [];
 
-    // Fallback to the project's main image.
     if (empty($gallery) && !empty($project['image'])) {
-
         $gallery = [
             [
                 'image' => $project['image'],
                 'caption' => $project['title'],
             ],
         ];
-
     }
 
-    // Remove screenshots that do not exist.
     $availableGallery = array_values(
         array_filter($gallery, function ($item) {
-
             return !empty($item['image'])
                 && file_exists(public_path($item['image']));
-
         })
     );
 
     $totalSlides = count($availableGallery);
 
+    $features = $project['features'] ?? [];
+
+    $overview = $project['overview']
+        ?? $project['description'];
+
+    $liveUrl = $project['live_url'] ?? null;
 @endphp
 
 
 <article class="mx-auto max-w-6xl px-6 py-16 md:py-20">
 
-    {{-- ===================================== --}}
     {{-- BACK NAVIGATION --}}
-    {{-- ===================================== --}}
 
     <a href="{{ route('home') }}#projects"
-       class="inline-flex items-center gap-2
-              text-sm font-semibold text-accent
+       class="text-sm font-semibold text-accent
               transition hover:opacity-70">
 
         ← BACK TO PROJECTS
-
     </a>
 
 
@@ -68,7 +63,6 @@
                   tracking-widest text-accent">
 
             {{ $project['category'] }}
-
         </p>
 
         <h1 class="mt-4 max-w-4xl font-display
@@ -76,21 +70,51 @@
                    md:text-6xl">
 
             {{ $project['title'] }}
-
         </h1>
 
         <p class="mt-7 max-w-3xl text-lg
                   leading-relaxed text-muted">
 
             {{ $project['description'] }}
-
         </p>
+
+        <div class="mt-8 flex flex-wrap
+                    items-center gap-5">
+
+            @if(!empty($project['project_type']))
+
+                <span class="border border-line
+                             px-4 py-2 font-mono
+                             text-xs tracking-wide
+                             text-muted">
+
+                    {{ $project['project_type'] }}
+                </span>
+
+            @endif
+
+            @if($liveUrl)
+
+                <a href="{{ $liveUrl }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="border-b-2 border-accent
+                          pb-2 text-sm font-semibold
+                          text-accent transition
+                          hover:opacity-70">
+
+                    VISIT LIVE WEBSITE ↗
+                </a>
+
+            @endif
+
+        </div>
 
     </header>
 
 
     {{-- ===================================== --}}
-    {{-- PROJECT SLIDESHOW --}}
+    {{-- PROJECT GALLERY --}}
     {{-- ===================================== --}}
 
     <section class="mt-16">
@@ -99,34 +123,23 @@
 
             <p class="font-mono text-xs
                       tracking-widest text-accent">
-
                 PROJECT SHOWCASE
-
             </p>
 
             <h2 class="mt-3 font-display
                        text-3xl font-bold md:text-4xl">
-
                 Project Gallery
-
             </h2>
 
             <p class="mt-4 max-w-2xl
                       leading-relaxed text-muted">
-
-                Explore screenshots of the project's
-                interface and features.
-
+                Explore the project's interface
+                and screenshots.
             </p>
 
         </div>
 
-
         @if($totalSlides > 0)
-
-            {{-- ================================= --}}
-            {{-- ALPINE.JS CAROUSEL --}}
-            {{-- ================================= --}}
 
             <div
                 x-data="{
@@ -152,7 +165,8 @@
                             this.total < 2 ||
                             this.reduced ||
                             this.hovering ||
-                            this.focused
+                            this.focused ||
+                            document.hidden
                         ) {
                             return;
                         }
@@ -173,7 +187,6 @@
                     next() {
                         this.active =
                             (this.active + 1) % this.total;
-
                         this.start();
                     },
 
@@ -181,7 +194,6 @@
                         this.active =
                             (this.active - 1 + this.total)
                             % this.total;
-
                         this.start();
                     },
 
@@ -221,23 +233,22 @@
                     }
                 "
 
+                x-on:visibilitychange.document="
+                    document.hidden ? stop() : start()
+                "
+
                 class="w-full min-w-0"
 
                 role="region"
                 aria-roledescription="carousel"
-                aria-label="{{ $project['title'] }} screenshot gallery"
+                aria-label="{{ $project['title'] }} gallery"
             >
 
-                {{-- ================================= --}}
-                {{-- MAIN IMAGE CONTAINER --}}
-                {{-- ================================= --}}
+                {{-- MAIN SLIDESHOW --}}
 
                 <div class="relative aspect-[16/10]
                             w-full overflow-hidden
-                            border border-line
-                            bg-white">
-
-                    {{-- SCREENSHOT SLIDES --}}
+                            border border-line bg-white">
 
                     @foreach($availableGallery as $index => $screenshot)
 
@@ -245,18 +256,14 @@
                             x-show="active === {{ $index }}"
 
                             x-transition:enter="
-                                transition-opacity
-                                duration-500 ease-in-out
+                                transition-opacity duration-500
                             "
-
                             x-transition:enter-start="opacity-0"
                             x-transition:enter-end="opacity-100"
 
                             x-transition:leave="
-                                transition-opacity
-                                duration-500 ease-in-out
+                                transition-opacity duration-500
                             "
-
                             x-transition:leave-start="opacity-100"
                             x-transition:leave-end="opacity-0"
 
@@ -266,12 +273,10 @@
 
                             class="absolute inset-0
                                    flex items-center
-                                   justify-center
-                                   bg-white"
+                                   justify-center bg-white"
 
                             role="group"
                             aria-roledescription="slide"
-
                             aria-label="{{ $index + 1 }} of {{ $totalSlides }}"
                         >
 
@@ -281,16 +286,14 @@
                                 rel="noopener noreferrer"
                                 class="flex h-full w-full
                                        items-center justify-center"
-                                aria-label="Open screenshot {{ $index + 1 }} in full resolution"
-                            >
+                                aria-label="Open screenshot {{ $index + 1 }} in full size">
 
                                 <img
                                     src="{{ asset($screenshot['image']) }}"
                                     alt="{{ $screenshot['caption'] ?? $project['title'] }}"
                                     loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
                                     class="h-full w-full
-                                           object-contain"
-                                >
+                                           object-contain">
 
                             </a>
 
@@ -298,17 +301,13 @@
 
                     @endforeach
 
-
-                    {{-- ================================= --}}
-                    {{-- PREVIOUS BUTTON --}}
-                    {{-- ================================= --}}
+                    {{-- NAVIGATION ARROWS --}}
 
                     @if($totalSlides > 1)
 
                         <button
                             type="button"
                             x-on:click="previous()"
-
                             class="absolute left-3 top-1/2
                                    z-10 flex h-11 w-11
                                    -translate-y-1/2
@@ -319,24 +318,15 @@
                                    shadow-sm transition
                                    hover:border-accent
                                    hover:text-accent
-                                   focus-visible:outline-2
-                                   focus-visible:outline-accent
                                    md:left-5"
-
-                            aria-label="Previous screenshot"
-                        >
+                            aria-label="Previous screenshot">
 
                             &#10094;
-
                         </button>
-
-
-                        {{-- NEXT BUTTON --}}
 
                         <button
                             type="button"
                             x-on:click="next()"
-
                             class="absolute right-3 top-1/2
                                    z-10 flex h-11 w-11
                                    -translate-y-1/2
@@ -347,15 +337,10 @@
                                    shadow-sm transition
                                    hover:border-accent
                                    hover:text-accent
-                                   focus-visible:outline-2
-                                   focus-visible:outline-accent
                                    md:right-5"
-
-                            aria-label="Next screenshot"
-                        >
+                            aria-label="Next screenshot">
 
                             &#10095;
-
                         </button>
 
                     @endif
@@ -363,9 +348,7 @@
                 </div>
 
 
-                {{-- ================================= --}}
-                {{-- SCREENSHOT DETAILS --}}
-                {{-- ================================= --}}
+                {{-- SCREENSHOT CAPTION AND DOTS --}}
 
                 <div class="mt-6 flex flex-wrap
                             items-start justify-between
@@ -374,8 +357,7 @@
                     <div class="min-w-0 flex-1">
 
                         <p class="font-mono text-xs
-                                  tracking-widest
-                                  text-accent">
+                                  tracking-widest text-accent">
 
                             PROJECT SCREENSHOT
 
@@ -386,10 +368,7 @@
                             /
 
                             {{ sprintf('%02d', $totalSlides) }}
-
                         </p>
-
-                        {{-- ACTIVE IMAGE CAPTION --}}
 
                         @foreach($availableGallery as $index => $screenshot)
 
@@ -400,29 +379,24 @@
                                     x-cloak
                                 @endif
 
-                                class="mt-2"
-                            >
+                                class="mt-2">
 
                                 <h3 class="font-display
                                            text-lg font-bold">
 
                                     {{ $screenshot['caption'] ?? 'Project Screenshot' }}
-
                                 </h3>
 
                                 <a
                                     href="{{ asset($screenshot['image']) }}"
                                     target="_blank"
                                     rel="noopener noreferrer"
-
                                     class="mt-2 inline-block
                                            text-sm font-semibold
                                            text-accent
-                                           hover:opacity-70"
-                                >
+                                           hover:opacity-70">
 
                                     VIEW FULL IMAGE ↗
-
                                 </a>
 
                             </div>
@@ -430,11 +404,6 @@
                         @endforeach
 
                     </div>
-
-
-                    {{-- ================================= --}}
-                    {{-- SLIDESHOW INDICATORS --}}
-                    {{-- ================================= --}}
 
                     @if($totalSlides > 1)
 
@@ -447,7 +416,6 @@
 
                                 <button
                                     type="button"
-
                                     x-on:click="goTo({{ $index }})"
 
                                     x-bind:aria-current="
@@ -467,8 +435,8 @@
                                            focus-visible:outline-2
                                            focus-visible:outline-ink"
 
-                                    aria-label="Go to screenshot {{ $index + 1 }}"
-                                ></button>
+                                    aria-label="Go to screenshot {{ $index + 1 }}">
+                                </button>
 
                             @endforeach
 
@@ -478,29 +446,11 @@
 
                 </div>
 
-
-                {{-- SLIDESHOW NOTE --}}
-
-                @if($totalSlides > 1)
-
-                    <p class="mt-7 font-mono
-                              text-[11px]
-                              tracking-wide text-muted">
-
-                        AUTO-PLAY EVERY 4.5 SECONDS
-                        · USE ARROWS TO NAVIGATE
-
-                    </p>
-
-                @endif
-
             </div>
 
         @else
 
-            {{-- ================================= --}}
-            {{-- NO SCREENSHOTS AVAILABLE --}}
-            {{-- ================================= --}}
+            {{-- PLACEHOLDER FOR MISSING IMAGES --}}
 
             <div class="flex min-h-72 flex-col
                         items-center justify-center
@@ -509,15 +459,11 @@
 
                 <p class="font-display text-2xl
                           font-bold text-muted/50">
-
                     Project Preview
-
                 </p>
 
                 <p class="mt-3 text-sm text-muted">
-
                     Screenshots will be added soon.
-
                 </p>
 
             </div>
@@ -528,23 +474,112 @@
 
 
     {{-- ===================================== --}}
-    {{-- TECHNOLOGIES SECTION --}}
+    {{-- PROJECT OVERVIEW --}}
     {{-- ===================================== --}}
 
-    <section class="mt-16 border-t border-line pt-10">
+    <section class="mt-16 border-t border-line pt-12">
+
+        <div class="grid gap-10 md:grid-cols-3">
+
+            <div>
+
+                <p class="font-mono text-xs
+                          tracking-widest text-accent">
+
+                    ABOUT THE PROJECT
+                </p>
+
+            </div>
+
+            <div class="md:col-span-2">
+
+                <h2 class="font-display text-3xl
+                           font-bold md:text-4xl">
+
+                    Project Overview
+                </h2>
+
+                <p class="mt-6 whitespace-pre-line
+                          text-base leading-8
+                          text-muted md:text-lg">{{ trim($overview) }}</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- ===================================== --}}
+    {{-- KEY FEATURES --}}
+    {{-- ===================================== --}}
+
+    @if(count($features) > 0)
+
+        <section class="mt-16 border-t border-line pt-12">
+
+            <p class="font-mono text-xs
+                      tracking-widest text-accent">
+
+                PROJECT CAPABILITIES
+            </p>
+
+            <h2 class="mt-3 font-display
+                       text-3xl font-bold md:text-4xl">
+
+                Key Features
+            </h2>
+
+            <div class="mt-10 grid gap-5 sm:grid-cols-2">
+
+                @foreach($features as $index => $feature)
+
+                    <div class="border border-line
+                                p-6 md:p-7">
+
+                        <p class="font-mono text-xs text-accent">
+
+                            {{ sprintf('%02d', $index + 1) }}
+                        </p>
+
+                        <h3 class="mt-4 font-display
+                                   text-xl font-bold">
+
+                            {{ $feature['title'] }}
+                        </h3>
+
+                        <p class="mt-3 leading-relaxed text-muted">
+
+                            {{ $feature['description'] }}
+                        </p>
+
+                    </div>
+
+                @endforeach
+
+            </div>
+
+        </section>
+
+    @endif
+
+
+    {{-- ===================================== --}}
+    {{-- TECHNOLOGIES --}}
+    {{-- ===================================== --}}
+
+    <section class="mt-16 border-t border-line pt-12">
 
         <p class="font-mono text-xs
                   tracking-widest text-accent">
 
-            TECHNOLOGIES
-
+            TECHNOLOGIES & PROJECT AREAS
         </p>
 
-        <h2 class="mt-3 font-display text-2xl
-                   font-bold md:text-3xl">
+        <h2 class="mt-3 font-display
+                   text-3xl font-bold md:text-4xl">
 
-            Technologies & Areas
-
+            Built With & Core Areas
         </h2>
 
         <div class="mt-7 flex flex-wrap gap-3">
@@ -558,7 +593,6 @@
                              hover:text-accent">
 
                     {{ $technology }}
-
                 </span>
 
             @endforeach
@@ -569,7 +603,7 @@
 
 
     {{-- ===================================== --}}
-    {{-- BOTTOM NAVIGATION --}}
+    {{-- BACK TO ALL PROJECTS --}}
     {{-- ===================================== --}}
 
     <div class="mt-16 border-t border-line pt-8">
@@ -581,7 +615,6 @@
                   transition hover:text-accent">
 
             ← ALL PROJECTS
-
         </a>
 
     </div>
