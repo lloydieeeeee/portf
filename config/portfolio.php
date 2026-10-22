@@ -3,9 +3,11 @@
 
 return [
 
-    /* ===================================== */
-    /* PERSONAL INFORMATION */
-    /* ===================================== */
+    /*
+    |--------------------------------------------------------------------------
+    | PERSONAL INFORMATION
+    |--------------------------------------------------------------------------
+    */
 
     'name' => 'John Lloyd A. Oresca',
 
@@ -17,25 +19,25 @@ return [
 
     'email' => 'johnlloydoresca6@gmail.com',
 
-    /* ===================================== */
-    /* EDUCATION */
-    /* ===================================== */
-
     'education' => [
         'degree' => 'Bachelor of Science in Information Technology',
         'school' => 'Camarines Norte State College',
         'years' => '2022 - 2026',
     ],
 
-    /* ===================================== */
-    /* PROJECTS */
-    /* ===================================== */
+    /*
+    |--------------------------------------------------------------------------
+    | PROJECTS
+    |--------------------------------------------------------------------------
+    */
 
     'projects' => [
 
-        /* --------------------------------- */
-        /* PROJECT 01: BREAKTHROUGH */
-        /* --------------------------------- */
+        /*
+        |--------------------------------------------------
+        | 01. BREAKTHROUGH PUBLICATION PORTAL
+        |--------------------------------------------------
+        */
 
         [
             'slug' => 'breakthrough',
@@ -53,30 +55,45 @@ return [
                 'Frontend Development',
             ],
 
-            // Main image shown on portfolio homepage
-            'image' => 'images/projects/breakthrough.png',
+            // Thumbnail used on homepage.
+            'image' => 'images/projects/breakthroughfrontpage.png',
 
-            // Screenshots on the project details page
+            // Four screenshots for the slideshow.
             'gallery' => [
-                [
-                    'image' => 'images/projects/breakthrough.png',
-                    'caption' => 'Breakthrough Publication Portal',
-                ],
+
                 [
                     'image' => 'images/projects/breakthroughfrontpage.png',
-                    'caption' => 'Administrator Panel',
+                    'caption' => 'Publication Homepage',
                 ],
+
+                [
+                    'image' => 'images/projects/breakthrough.png',
+                    'caption' => 'Content Management Interface',
+                ],
+
+                [
+                    'image' => 'images/projects/breakthroughuser.png',
+                    'caption' => 'User Interface',
+                ],
+
+                [
+                    'image' => 'images/projects/breakthrough user.png',
+                    'caption' => 'Additional User View',
+                ],
+
             ],
         ],
 
-        /* --------------------------------- */
-        /* PROJECT 02: ECO PLUG */
-        /* --------------------------------- */
+        /*
+        |--------------------------------------------------
+        | 02. ECO PLUG / SMART HOME ANALYTICS
+        |--------------------------------------------------
+        */
 
         [
             'slug' => 'eco-plug',
 
-            'title' => 'ECO PLUG',
+            'title' => 'ECO PLUG / Smart Home Analytics',
 
             'category' => 'IoT / Hardware',
 
@@ -89,14 +106,40 @@ return [
                 'Microcontrollers',
             ],
 
-            'image' => 'images/projects/eco-plug.webp',
+            // Thumbnail used on homepage.
+            'image' => 'images/projects/smhanalytics.png',
 
-            'gallery' => [],
+            // Four screenshots for the slideshow.
+            'gallery' => [
+
+                [
+                    'image' => 'images/projects/smhanalytics.png',
+                    'caption' => 'Smart Home Analytics - Overview',
+                ],
+
+                [
+                    'image' => 'images/projects/smhanalytics2.png',
+                    'caption' => 'Smart Home Analytics - View 02',
+                ],
+
+                [
+                    'image' => 'images/projects/smhanalytics3.png',
+                    'caption' => 'Smart Home Analytics - View 03',
+                ],
+
+                [
+                    'image' => 'images/projects/smhanalytics4.png',
+                    'caption' => 'Smart Home Analytics - View 04',
+                ],
+
+            ],
         ],
 
-        /* --------------------------------- */
-        /* PROJECT 03: SMART KEY */
-        /* --------------------------------- */
+        /*
+        |--------------------------------------------------
+        | 03. SMART KEY MANAGEMENT SYSTEM
+        |--------------------------------------------------
+        */
 
         [
             'slug' => 'smart-key',
@@ -119,9 +162,11 @@ return [
             'gallery' => [],
         ],
 
-        /* --------------------------------- */
-        /* PROJECT 04: PAYROLL SYSTEM */
-        /* --------------------------------- */
+        /*
+        |--------------------------------------------------
+        | 04. LEAVE AND PAYROLL MANAGEMENT SYSTEM
+        |--------------------------------------------------
+        */
 
         [
             'slug' => 'payroll-system',
@@ -146,9 +191,11 @@ return [
 
     ],
 
-    /* ===================================== */
-    /* SKILLS */
-    /* ===================================== */
+    /*
+    |--------------------------------------------------------------------------
+    | SKILLS
+    |--------------------------------------------------------------------------
+    */
 
     'skills' => [
 
